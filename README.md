@@ -94,3 +94,50 @@ Parar um container em execução:
 ```
 docker stop <container_id>
 ````
+
+# Nível Médio
+
+## 5. Criando e utilizando volumes para persistência de dados
+
+1. Acesse: https://github.com/docker/awesome-compose/tree/master/react-express-mysql
+
+### Execute o projeto
+```
+docker-compose up -d
+```
+Esse comando:
+
+1. Sobe os containers (React, Express, MySQL)
+
+2. Cria o volume db-data
+
+3. Aplica o script de inicialização init.sql (se houver)
+
+### Testando a persistência
+
+1. Insira algum dado no banco via API (Express) ou manualmente.
+
+2. Remova o container do MySQL
+
+````
+docker-compose stop db
+docker-compose rm -f db
+````
+
+### Suba o container novamente:
+
+```
+docker-compose up -d db
+```
+
+### Verificando volumes:
+
+Veja os volumes criados:
+```
+docker volume ls
+```
+
+Inspecione o conteúdo:
+```
+docker volume inspect react-express-mysql_db-data
+```
