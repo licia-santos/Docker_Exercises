@@ -1,4 +1,4 @@
-# Nível Fácil
+# 🟢 Nível Fácil
 
 ## 1. Rodando um Container Básico
 
@@ -78,7 +78,7 @@ chmod +x logs.sh
 ![interativo](https://github.com/user-attachments/assets/5dc1ce47-6dcc-4c02-89d9-291b8e0bde32)
 
 
-## 3.	Listando e removendo containers
+## 3. Listando e removendo containers
 Para listar apenas os containers em execução:
 
 ```
@@ -99,8 +99,31 @@ docker stop <container_id>
 
 ![container apagado](https://github.com/user-attachments/assets/5170c0a6-efc4-491f-91da-56549b9f4941)
 
+## 4. Criando um Dockerfile para uma aplicação simples em Python
 
-# Nível Médio
+1. Baixe o seguinte projeto: `https://github.com/docker/awesome-compose/tree/master/flask`
+2. Abra esse arquivo em um editor de código (Exemplo: Visual Studio Code)
+3. Confira se os seguintes arquivos estão na porta `5000`:
+   * app.py
+   * Dockerfile
+   * compose.yaml
+     
+Depois de conferir esses arquivos, você pode construir e rodar seu container assim:
+
+```
+docker build -t flask-app .
+docker run -p 5000:5000 flask-app
+```
+
+![Captura de tela 2025-04-23 092253](https://github.com/user-attachments/assets/16ac17b4-90e1-41ca-90d7-deef6a56c71b)
+
+Acesse em: `http://localhost:5000`
+
+Você verá a resposta: `"Hello World!"`.
+
+![Captura de tela 2025-04-23 092200](https://github.com/user-attachments/assets/5230a978-056a-44ff-8464-c5d8a7a8ebf7)
+
+# 🟡 Nível Médio
 
 ## 5. Criando e utilizando volumes para persistência de dados
 
@@ -295,3 +318,22 @@ docker images gs-ping
 ```
 
 ![Captura de tela 2025-04-22 111038](https://github.com/user-attachments/assets/26c7309a-ffa0-4f44-9f04-c2e07454806f)
+
+## 7. Construindo uma rede Docker para comunicação entre containers
+
+1. Baixe o seguinte projeto: `https://github.com/docker/awesome-compose/tree/master/react-express-mongodb`
+2. Abra esse arquivo em um editor de código (Exemplo: Visual Studio Code)
+
+No terminal, execute:
+
+```
+docker-compose up --build
+```
+
+![Captura de tela 2025-04-23 095138](https://github.com/user-attachments/assets/aa18dbd3-52e0-4fb8-a389-16b5ac57baee)
+
+Acesse a API em: `http://localhost:3000`
+
+![Captura de tela 2025-04-23 095657](https://github.com/user-attachments/assets/6ae2a8eb-3dd3-4a71-878b-f8e6cbc4ff56)
+
+# 🔴 Nível Difícil
