@@ -8,7 +8,7 @@
 1. Acesse: [Tailwind CSS Landing Page Template](https://tailwindcss.com/templates/landing-page)  
 2. Clique em **"View source"**  
 3. Baixe ou copie o conteúdo HTML da página  
-4. Crie a estrutura de diretórios do projeto:
+4. Crie a estrutura de diretórios do projeto em um editor de código (Exemplo: Visual Studio Code)
 
 meu-projeto/ 
 |── Dockerfile
@@ -322,7 +322,6 @@ docker images gs-ping
 ## 7. Construindo uma rede Docker para comunicação entre containers
 
 1. Baixe o seguinte projeto: `https://github.com/docker/awesome-compose/tree/master/react-express-mongodb`
-2. Abra esse arquivo em um editor de código (Exemplo: Visual Studio Code)
 
 No terminal, execute:
 
@@ -335,5 +334,29 @@ docker-compose up --build
 Acesse a API em: `http://localhost:3000`
 
 ![Captura de tela 2025-04-23 095657](https://github.com/user-attachments/assets/6ae2a8eb-3dd3-4a71-878b-f8e6cbc4ff56)
+
+## 8. Criando um compose file para rodar uma aplicação com banco de dados
+
+1. Baixe o seguinte projeto: `https://github.com/docker/awesome-compose/tree/master/postgresql-pgadmin`
+
+No terminal, execute:
+
+```
+docker-compose up -d
+```
+
+![Captura de tela 2025-04-23 162149](https://github.com/user-attachments/assets/157a9e04-bf78-498f-a056-d684cfe8313d)
+
+Abre o navegador e acesse: `http://localhost:5050`
+
+![Captura de tela 2025-04-23 162157](https://github.com/user-attachments/assets/6c3a57ee-af38-482d-9043-4a4c05f230a0)
+
+Para acessar coloque nos campos:
+
+* Email: `your@email.com`
+* Senha: `changeit`
+
+![Captura de tela 2025-04-23 170157](https://github.com/user-attachments/assets/b524f648-4d16-4b3f-8c12-578d6b792d78)
+
 
 # 🔴 Nível Difícil
