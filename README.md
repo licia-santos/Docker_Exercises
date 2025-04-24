@@ -406,6 +406,106 @@ Acesse em: `http://localhost:8080`
 
 ## 10. Evitar execução como root
 
+### Crie uma pasta chamada `site-teste`
+
+1. Crie os arquivos dentro da sua pasta `site-teste`
+
+a. `app.js`
+```
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+  res.end('Ola, Docker sem root!');
+});
+
+server.listen(3000, () => {
+  console.log('Servidor rodando na porta 3000');
+});
+```
+
+b. `package.json`
+
+```
+{
+  "name": "site-teste",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  }
+}
+```
+
+2. Agora crie o `Dockerfile`:
+```
+# Imagem base
+FROM node:18
+
+# Criar diretório da aplicação
+WORKDIR /app
+
+# Copiar arquivos para dentro do container
+COPY package*.json ./
+RUN npm install
+COPY . .
+
+# Criar um usuário não-root
+RUN adduser --disabled-password --gecos '' appuser
+
+# Usar o novo usuário
+USER appuser
+
+# Expor porta e iniciar app
+EXPOSE 3000
+CMD ["npm", "start"]
+```
+
+3. Abra o terminal na pasta `site-teste` e rode:
+```
+docker build -t site-teste .
+docker run -d -p 3000:3000 --name site-container site-teste
+```
+
+Acesse em: `http://localhost:3000`
+
+![Captura de tela 2025-04-24 155338](https://github.com/user-attachments/assets/a51d8857-fae8-4d3f-971d-dcf2487cc6a8)
 
 
+4. Verificar usuário em execução:
+```
+docker exec site-container whoami
+```
+![Captura de tela 2025-04-24 154304](https://github.com/user-attachments/assets/60c58df6-f2d7-4cbf-a9e3-258e93c83f8b)
 
+## 11. Analisar imagem Docker com Trivy
+
+1. Instalação do Trivy na sua máquina
+```
+# Baixar o Trivy com o comando curl
+sudo apt install wget
+wget https://github.com/aquasecurity/trivy/releases/download/v0.39.0/trivy_0.39.0_Linux-64bit.deb
+
+
+# Instalar o pacote
+sudo dpkg -i trivy_0.39.0_Linux-64bit.deb
+```
+
+2. Rode o comando trivy image `<nome-da-imagem>`
+
+```
+trivy image `<nome-da-imagem>
+```
+
+3. Identificar vulnerabilidades com severidade HIGH ou CRITICAL
+O Trivy classificará as vulnerabilidades encontradas por severidade (Low, Medium, High, Critical). Fique atenta às vulnerabilidades de severidade HIGH e CRITICAL, pois essas são as mais críticas e podem representar riscos à segurança.
+
+As vulnerabilidades serão listadas com informações detalhadas, como:
+* Nome do pacote afetado.
+* Descrição da vulnerabilidade.
+* CVE (se aplicável).
+* Severidade.
+
+4. Exemplo de saída
+```
+Total: 3 (UNKNOWN: 0, LOW: 0, MEDIUM: 1, HIGH: 2, CRITICAL: 0)
+```
