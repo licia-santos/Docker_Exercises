@@ -360,3 +360,52 @@ Para acessar coloque nos campos:
 
 
 # 🔴 Nível Difícil
+
+## 9. Criando uma imagem personalizada com um servidor web e arquivos estáticos
+
+1. Baixe o seguinte projeto: `https://github.com/creativetimofficial/material-kit`
+2. Agora você só precisa copiar os arquivos que ficam dentro da pasta `material-kit` para uma pasta no seu projeto (por exemplo, `site`).
+3. Crie um Dockerfile com as seguintes informações:
+
+```
+# Usa a imagem oficial do Nginx
+FROM nginx:alpine
+
+# Apaga os arquivos default do Nginx
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copia os arquivos do site para o diretório padrão do Nginx
+COPY . /usr/share/nginx/html/
+
+# Expõe a porta 80
+EXPOSE 80
+
+# Inicia o Nginx
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+### Comandos para build e run
+
+No terminal:
+
+```
+docker build -t meu-site-nginx .
+```
+
+Depois:
+```
+docker run -d -p 8080:80 meu-site-nginx
+```
+
+![Captura de tela 2025-04-24 093717](https://github.com/user-attachments/assets/6d57b5e6-9155-4a0a-aa3e-33116463ef25)
+
+
+Acesse em: `http://localhost:8080`
+
+![Captura de tela 2025-04-24 093616](https://github.com/user-attachments/assets/860edae0-9555-4041-bd3b-a8c82b88bc2b)
+
+## 10. Evitar execução como root
+
+
+
+
