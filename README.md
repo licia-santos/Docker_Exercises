@@ -512,8 +512,7 @@ Total: 3 (UNKNOWN: 0, LOW: 0, MEDIUM: 1, HIGH: 2, CRITICAL: 0)
 
 ## 12. Corrigir vulnerabilidades encontradas
 
-Dockerfile com más praticas:
-
+### Dockerfile com más praticas:
 ```
 Dockerfile
 Dockerfile vulnerável
@@ -523,9 +522,60 @@ COPY . .
 CMD ["python", "app.py"]
 ```
 
-1. Problemas do Dockerfile original:
+Problemas do Dockerfile original:
 * Imagem base genérica (`python:3.9`) – Pode ter muitas libs desnecessárias.
 * Usuário root por padrão – Pode representar riscos de segurança.
 * Dependências desatualizadas – As versões antigas no `requirements.txt` podem ter vulnerabilidades conhecidas.
 * Camadas não otimizadas – Instalação de pacotes sem limpeza ou cache pode deixar a imagem maior.
 * Sem especificar explicitamente um ambiente de produção – Não é ideal para segurança e performance.
+
+### Dockerfile atualizado:
+```
+# Usar uma imagem slim para reduzir tamanho e superfície de ataque
+FROM python:3.9-slim
+
+# Define variáveis de ambiente para evitar criação de arquivos .pyc e definir path não interativo
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+# Cria e usa um usuário não-root
+RUN adduser --disabled-password --no-create-home appuser
+
+# Diretório de trabalho
+WORKDIR /app
+
+# Copia apenas o requirements.txt primeiro (melhora cache)
+COPY requirements.txt .
+
+# Atualiza o apt e instala dependências mínimas necessárias (por ex. gcc, libpq-dev), depois remove o cache
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends gcc \
+    && pip install --upgrade pip \
+    && pip install -r requirements.txt \
+    && apt-get purge -y --auto-remove gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copia o restante do código
+COPY . .
+
+# Altera para o usuário não-root
+USER appuser
+
+# Comando padrão
+CMD ["python", "app.py"]
+```
+
+### Atualização das libs no `requirements.txt`:
+
+De: 
+```
+flask==1.1.1
+requests==2.22.0
+```
+
+Para:
+```
+flask==2.2.5
+requests==2.31.0
+```
+Usando versões mais recentes, com correções de segurança.
