@@ -509,3 +509,23 @@ As vulnerabilidades serão listadas com informações detalhadas, como:
 ```
 Total: 3 (UNKNOWN: 0, LOW: 0, MEDIUM: 1, HIGH: 2, CRITICAL: 0)
 ```
+
+## 12. Corrigir vulnerabilidades encontradas
+
+Dockerfile com más praticas:
+
+```
+Dockerfile
+Dockerfile vulnerável
+FROM python:3.9
+WORKDIR /app COPY requirements.txt . RUN pip install -r requirements.txt
+COPY . .
+CMD ["python", "app.py"]
+```
+
+1. Problemas do Dockerfile original:
+* Imagem base genérica (`python:3.9`) – Pode ter muitas libs desnecessárias.
+* Usuário root por padrão – Pode representar riscos de segurança.
+* Dependências desatualizadas – As versões antigas no `requirements.txt` podem ter vulnerabilidades conhecidas.
+* Camadas não otimizadas – Instalação de pacotes sem limpeza ou cache pode deixar a imagem maior.
+* Sem especificar explicitamente um ambiente de produção – Não é ideal para segurança e performance.
